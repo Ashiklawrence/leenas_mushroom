@@ -7,7 +7,7 @@ const bodyParser = require('body-parser')
 const connectDB = require('./config/db')
 connectDB();
 //
-const port = 3001
+const port = process.env.PORT || 3000
 // json parser
 app.use(bodyParser.json({ limit: "10mb" })); // Adjust the limit as needed
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
@@ -18,8 +18,37 @@ app.use(cors())
 const authroutes = require('./routes/auth')
 app.use("/auth",authroutes)
 
+// call routes
+const calldetails = require('./routes/calldetails')
+app.use("/calldetails",calldetails)
+
+// order routes
+const orderdetails = require('./routes/orderdetails')
+app.use("/orderdetails",orderdetails)
+
+// income routes
+const incomedetails = require('./routes/incomedetails')
+app.use("/incomedetails",incomedetails)
+
+// expense routes
+const expensedetails = require('./routes/expensedetails')
+app.use("/expensedetails",expensedetails)
+
+// mushroom routes
+const mushroomdetails = require('./routes/mushroomdetails')
+app.use("/mushroomdetails",mushroomdetails)
+
+// seed routes
+const seeddetails = require('./routes/seeddetails')
+app.use("/seeddetails",seeddetails)
+
+// bed routes
+const beddetails = require('./routes/beddetails')
+app.use("/beddetails",beddetails)
+
+
 app.listen(port,()=>{
-    console.log('App is running on port',port)
+    console.log('App is running on port', port)
 })
 
 app.get('/test',(req,res)=>{

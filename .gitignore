@@ -3,3 +3,9 @@ node_modules/
 
 # Environment variables
 .env
+
+# VS Code settings
+.vscode/
+
+# Git directory itself
+.git/
