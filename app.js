@@ -55,3 +55,14 @@ app.get('/test',(req,res)=>{
     const msg = {'message' : 'Success'}
     res.json(msg)
 })
+
+// crone job
+const https = require('https');
+
+setInterval(() => {
+    https.get('https://leenas-mushroom.onrender.com', (res) => {
+        console.log(`Pinged self with status: ${res.statusCode}`);
+    }).on('error', (err) => {
+        console.error('Error pinging self:', err);
+    });
+}, 13 * 60 * 1000); // Ping every 13 minutes
