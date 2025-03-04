@@ -5,6 +5,10 @@ const calldbSchema = mongoose.Schema({
         type : Date,
         required : true,
     },
+    call_type : {
+        type : String,
+        required : true,
+    },
     name : {
         type : String,
         required : true,

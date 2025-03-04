@@ -5,16 +5,17 @@ const asyncHandler = require('express-async-handler'); // Ensures clean error ha
 exports.addCalldetails = asyncHandler(async (req, res) => {
     try {
         // Destructure data from the request body
-        const { date, name, phone_number, purpose, current_status } = req.body;
+        const { date,call_type, name, phone_number, purpose, current_status } = req.body;
 
         // Check if all required fields are provided
-        if (!date || !name || !phone_number || !purpose || !current_status) {
+        if (!date || !call_type || !name || !phone_number || !purpose || !current_status) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
         // Create a new document with the provided data
         const newCall = new calldb({
             date: new Date(date), // Ensure the date is converted to a Date object
+            call_type,
             name,
             phone_number,
             purpose,
@@ -85,14 +86,14 @@ exports.getCalldetails = asyncHandler(async (req, res) => {
 //patch
 exports.updateCalldetails = asyncHandler(async (req, res) => {
     try {
-        const {id, date, name, phone_number, purpose, current_status } = req.body;
+        const {id, date, call_type, name, phone_number, purpose, current_status } = req.body;
         if(!id) {
             return res.status(400).json({ message: 'Id is required' });
         }
         // Find the document by ID and update only the provided fields
         const updatedCall = await calldb.findByIdAndUpdate(
             id, // The document ID
-            { date, name, phone_number, purpose, current_status }, // Fields to update
+            { date, name, call_type, phone_number, purpose, current_status }, // Fields to update
             { new: true, runValidators: true } // Return the updated document and run validators
         );
 

@@ -7,10 +7,12 @@ const incomedbSchema = mongoose.Schema({
     },
     user_details : {
         type : String,
-        required : true,
     },
     source : {
-        type : Number,
+        type : String,
+    },
+    income_type : {
+        type : String,
         required : true,
     },
     amount : {

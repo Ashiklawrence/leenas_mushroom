@@ -7,7 +7,6 @@ const expensedbSchema = mongoose.Schema({
     },
     user_details : {
         type : String,
-        required : true,
     },
     expense_type : {
         type : String,

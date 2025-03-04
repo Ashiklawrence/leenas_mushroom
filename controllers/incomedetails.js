@@ -8,13 +8,13 @@ exports.addIncomedetails = asyncHandler(async (req, res) => {
         date,
         user_details,
         source,
+        income_type,
         amount,
         } = req.body;
     
         if (
         !date ||
-        !user_details ||
-        !source ||
+        !income_type ||
         !amount
         ) {
         return res.status(400).json({ message: "All fields are required" });
@@ -24,6 +24,7 @@ exports.addIncomedetails = asyncHandler(async (req, res) => {
             date,
             user_details,
             source,
+            income_type,
             amount,
         });
     
@@ -82,5 +83,31 @@ exports.getiIncomedetails = asyncHandler(async (req, res) => {
             message: "An error occurred while fetching the data. Please try again later.",
             error: err.message
         });
+    }
+});
+
+//delete income details
+exports.deleteIncomedetails = asyncHandler(async (req, res) => {
+    try {
+        const { ids } = req.body; // Get the list of IDs from the request body
+
+        // Delete multiple documents by their IDs
+        const deletedIncomes = await incomedb.deleteMany({
+            _id: { $in: ids } // Use $in to match any of the IDs in the array
+        });
+
+        // Check if any documents were deleted
+        if (deletedIncomes.deletedCount === 0) {
+            return res.status(404).json({ message: 'No income details found to delete' });
+        }
+
+        // Return a success message
+        res.status(200).json({
+            status: 'success',
+            message: `${deletedIncomes.deletedCount} income details deleted successfully`
+        });
+    } catch (error) {
+        console.error('Error deleting income details:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 });

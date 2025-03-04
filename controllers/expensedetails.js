@@ -13,7 +13,6 @@ exports.addExpensedetails = asyncHandler(async (req, res) => {
     
         if (
         !date ||
-        !user_details ||
         !expense_type ||
         !amount
         ) {
@@ -82,5 +81,31 @@ exports.getExpensedetails = asyncHandler(async (req, res) => {
             message: "An error occurred while fetching the data. Please try again later.",
             error: err.message
         });
+    }
+});
+
+//delete expense details
+exports.deleteExpensedetails = asyncHandler(async (req, res) => {
+    try {
+        const { ids } = req.body; // Get the list of IDs from the request body
+
+        // Delete multiple documents by their IDs
+        const deletedExpense = await expensedb.deleteMany({
+            _id: { $in: ids } // Use $in to match any of the IDs in the array
+        });
+
+        // Check if any documents were deleted
+        if (deletedExpense.deletedCount === 0) {
+            return res.status(404).json({ message: 'No expense details found to delete' });
+        }
+
+        // Return a success message
+        res.status(200).json({
+            status: 'success',
+            message: `${deletedExpense.deletedCount} expense details deleted successfully`
+        });
+    } catch (error) {
+        console.error('Error deleting expense details:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 });

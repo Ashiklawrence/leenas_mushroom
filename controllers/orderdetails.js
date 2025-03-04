@@ -7,6 +7,8 @@ exports.addOrderdetails = asyncHandler(async (req, res) => {
     // Destructure data from the request body
     const {
       date,
+      order_type,
+      item,
       name,
       address,
       pincode,
@@ -14,19 +16,25 @@ exports.addOrderdetails = asyncHandler(async (req, res) => {
       catalogue,
       quantity,
       courier_data,
+      courier_provider,
+      courier_ref_no,
+      tracking_id,
       tracking_status,
+      payment_status
     } = req.body;
 
     // Check if all required fields are provided
     if (
       !date ||
+      !order_type ||
       !name ||
       !address ||
       !pincode ||
       !phone_number ||
       !catalogue ||
       !quantity ||
-      !courier_data ||
+      !courier_provider ||
+      !courier_ref_no ||
       !tracking_status
     ) {
       return res.status(400).json({ message: "All fields are required" });
@@ -35,6 +43,8 @@ exports.addOrderdetails = asyncHandler(async (req, res) => {
     // Create a new document with the provided data
     const newOrder = new orderdb({
       date,
+      item,
+      order_type,
       name,
       address,
       pincode,
@@ -42,7 +52,11 @@ exports.addOrderdetails = asyncHandler(async (req, res) => {
       catalogue,
       quantity,
       courier_data,
+      courier_provider,
+      courier_ref_no,
+      tracking_id,
       tracking_status,
+      payment_status
     });
 
     // Save the new document to the database
@@ -112,6 +126,8 @@ exports.updateOrderdetails = asyncHandler(async (req, res) => {
     const {
       id,
       date,
+      item,
+      order_type,
       name,
       address,
       pincode,
@@ -119,16 +135,23 @@ exports.updateOrderdetails = asyncHandler(async (req, res) => {
       catalogue,
       quantity,
       courier_data,
+      courier_provider,
+      courier_ref_no,
+      tracking_id,
       tracking_status,
+      payment_status
     } = req.body;
+
     if(!id) {
       return res.status(400).json({ message: 'Id is required' });
-  }
+    }
     // Find the document by ID and update only the provided fields
     const updatedOrder = await orderdb.findByIdAndUpdate(
       id, // The document ID
       {
         date,
+        item,
+        order_type,
         name,
         address,
         pincode,
@@ -136,7 +159,11 @@ exports.updateOrderdetails = asyncHandler(async (req, res) => {
         catalogue,
         quantity,
         courier_data,
+        courier_provider,
+        courier_ref_no,
+        tracking_id,
         tracking_status,
+        payment_status
       }, // Fields to update
       { new: true, runValidators: true } // Return the updated document and run validators
     );

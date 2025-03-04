@@ -5,6 +5,13 @@ const orderdbSchema = mongoose.Schema({
         type : Date,
         required : true,
     },
+    item :{
+        type : String,
+    },
+    order_type :{
+        type : String,
+        required : true,
+    },
     name : {
         type : String,
         required : true,
@@ -31,12 +38,25 @@ const orderdbSchema = mongoose.Schema({
     },
     courier_data: {
         type : String,
+    },
+    courier_provider: {
+        type : String,
         required : true
+    },
+    courier_ref_no:{
+        type : String,
+        required : true
+    },
+    tracking_id:{
+        type : String,
     },
     tracking_status : {
         type : String,
         required : true
     },
+    payment_status:{
+        type : String,
+    }
 },{timestamps : true})
 
 module.exports = mongoose.model("orderdb",orderdbSchema)
