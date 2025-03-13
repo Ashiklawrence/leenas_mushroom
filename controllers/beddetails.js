@@ -20,7 +20,7 @@ exports.addBeddetails = asyncHandler(async (req, res) => {
       !no_of_packets ||
       !remarks
     ) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({status:"failed", message: "All fields are required" });
     }
 
     // Create a new document with the provided data
@@ -36,10 +36,10 @@ exports.addBeddetails = asyncHandler(async (req, res) => {
     const savedData = await newbed.save();
 
     // Send the saved data in the response
-    res.status(201).json(savedData);
+    res.status(201).json({status:"success",message: 'Bed details updated successfully',data:savedData});
   } catch (error) {
     console.error("Error creating bed entry:", error);
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({status:"failed", message: "Server error", error: error.message });
   }
 });
 
@@ -62,13 +62,14 @@ exports.getBeddetails = asyncHandler(async (req, res) => {
 
         // Send the paginated data in the response
         res.status(200).json({
+            status:"success",
             total,
             page: Number(page),
             limit: Number(limit),
-            beddata,
+            data: beddata,
         });
     } catch (error) {
         console.error("Error fetching bed details:", error);
-        res.status(500).json({ message: "Server error", error: error.message });
+        res.status(500).json({status:"failed", message: "Server error", error: error.message });
     }
 });

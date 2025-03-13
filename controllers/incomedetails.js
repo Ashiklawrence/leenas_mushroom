@@ -17,7 +17,7 @@ exports.addIncomedetails = asyncHandler(async (req, res) => {
         !income_type ||
         !amount
         ) {
-        return res.status(400).json({ message: "All fields are required" });
+        return res.status(400).json({status:"failed", message: "All fields are required" });
         }
     
         const newIncome = new incomedb({
@@ -30,10 +30,10 @@ exports.addIncomedetails = asyncHandler(async (req, res) => {
     
         const savedData = await newIncome.save();
     
-        res.status(201).json(savedData);
+        res.status(201).json({status:"success",data:savedData});
     } catch (error) {
         console.error("Error creating income entry:", error);
-        res.status(500).json({ message: "Server error", error: error.message });
+        res.status(500).json({status:"failed", message: "Server error", error: error.message });
     }
 });
 
@@ -98,7 +98,7 @@ exports.deleteIncomedetails = asyncHandler(async (req, res) => {
 
         // Check if any documents were deleted
         if (deletedIncomes.deletedCount === 0) {
-            return res.status(404).json({ message: 'No income details found to delete' });
+            return res.status(404).json({status:"failed", message: 'No income details found to delete' });
         }
 
         // Return a success message
@@ -108,6 +108,6 @@ exports.deleteIncomedetails = asyncHandler(async (req, res) => {
         });
     } catch (error) {
         console.error('Error deleting income details:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({status:"failed", message: 'Server error', error: error.message });
     }
 });

@@ -20,7 +20,7 @@ exports.addSeeddetails = asyncHandler(async (req, res) => {
       !no_of_packets ||
       !remarks
     ) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({status:"failed", message: "All fields are required" });
     }
 
     // Create a new document with the provided data
@@ -36,10 +36,10 @@ exports.addSeeddetails = asyncHandler(async (req, res) => {
     const savedData = await newseed.save();
 
     // Send the saved data in the response
-    res.status(201).json(savedData);
+    res.status(201).json({status:"success",data:savedData});
   } catch (error) {
     console.error("Error creating seed entry:", error);
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({status:"failed", message: "Server error", error: error.message });
   }
 });
 
@@ -62,13 +62,14 @@ exports.getSeeddetails = asyncHandler(async (req, res) => {
 
         // Send the paginated data in the response
         res.status(200).json({
+          status:"success",
             total,
             page: Number(page),
             limit: Number(limit),
-            seed,
+            data:seed,
         });
     } catch (error) {
         console.error("Error fetching seed details:", error);
-        res.status(500).json({ message: "Server error", error: error.message });
+        res.status(500).json({status:"failed", message: "Server error", error: error.message });
     }
 });

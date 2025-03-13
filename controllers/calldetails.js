@@ -9,7 +9,7 @@ exports.addCalldetails = asyncHandler(async (req, res) => {
 
         // Check if all required fields are provided
         if (!date || !call_type || !name || !phone_number || !purpose || !current_status) {
-            return res.status(400).json({ message: 'All fields are required' });
+            return res.status(400).json({status:"failed", message: 'All fields are required' });
         }
 
         // Create a new document with the provided data
@@ -26,10 +26,10 @@ exports.addCalldetails = asyncHandler(async (req, res) => {
         const savedData = await newCall.save();
 
         // Send the saved data in the response
-        res.status(200).json(savedData);
+        res.status(200).json({status:"success",message:"Call details added succesfully",data:savedData});
     } catch (error) {
         console.error('Error creating call entry:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({status:"failed", message: 'Server error', error: error.message });
     }
 });
 
@@ -88,7 +88,7 @@ exports.updateCalldetails = asyncHandler(async (req, res) => {
     try {
         const {id, date, call_type, name, phone_number, purpose, current_status } = req.body;
         if(!id) {
-            return res.status(400).json({ message: 'Id is required' });
+            return res.status(400).json({status:"failed", message: 'Id is required' });
         }
         // Find the document by ID and update only the provided fields
         const updatedCall = await calldb.findByIdAndUpdate(
@@ -99,7 +99,7 @@ exports.updateCalldetails = asyncHandler(async (req, res) => {
 
         // If the document doesn't exist, return a 404 error
         if (!updatedCall) {
-            return res.status(404).json({ message: 'Call details not found' });
+            return res.status(404).json({status:"failed", message: 'Call details not found' });
         }
 
         // Return the updated document
@@ -110,7 +110,7 @@ exports.updateCalldetails = asyncHandler(async (req, res) => {
         });
     } catch (error) {
         console.error('Error updating call details:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({status:"failed", message: 'Server error', error: error.message });
     }
 });
 
@@ -122,7 +122,7 @@ exports.deleteCalldetails = asyncHandler(async (req, res) => {
 
         // Check if IDs are provided and they are in an array
         if (!Array.isArray(ids) || ids.length === 0) {
-            return res.status(400).json({ message: 'Please provide an array of IDs' });
+            return res.status(400).json({status:"failed", message: 'Please provide an array of IDs' });
         }
 
         // Delete multiple documents by their IDs
@@ -132,7 +132,7 @@ exports.deleteCalldetails = asyncHandler(async (req, res) => {
 
         // Check if any documents were deleted
         if (deletedCalls.deletedCount === 0) {
-            return res.status(404).json({ message: 'No call details found to delete' });
+            return res.status(404).json({status:"failed", message: 'No call details found to delete' });
         }
 
         // Return a success message
@@ -142,6 +142,6 @@ exports.deleteCalldetails = asyncHandler(async (req, res) => {
         });
     } catch (error) {
         console.error('Error deleting call details:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({status:"failed", message: 'Server error', error: error.message });
     }
 });

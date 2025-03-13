@@ -37,7 +37,7 @@ exports.addOrderdetails = asyncHandler(async (req, res) => {
       !courier_ref_no ||
       !tracking_status
     ) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({status:"failed", message: "All fields are required" });
     }
 
     // Create a new document with the provided data
@@ -63,10 +63,10 @@ exports.addOrderdetails = asyncHandler(async (req, res) => {
     const savedData = await newOrder.save();
 
     // Send the saved data in the response
-    res.status(201).json(savedData);
+    res.status(201).json({status:"success",data:savedData});
   } catch (error) {
     console.error("Error creating order entry:", error);
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({status:"failed", message: "Server error", error: error.message });
   }
 });
 
@@ -143,7 +143,7 @@ exports.updateOrderdetails = asyncHandler(async (req, res) => {
     } = req.body;
 
     if(!id) {
-      return res.status(400).json({ message: 'Id is required' });
+      return res.status(400).json({status:"failed", message: 'Id is required' });
     }
     // Find the document by ID and update only the provided fields
     const updatedOrder = await orderdb.findByIdAndUpdate(
@@ -170,7 +170,7 @@ exports.updateOrderdetails = asyncHandler(async (req, res) => {
 
     // If the document doesn't exist, return a 404 error
     if (!updatedOrder) {
-      return res.status(404).json({ message: "Order details not found" });
+      return res.status(404).json({status:"failed", message: "Order details not found" });
     }
 
     // Return the updated document
@@ -181,7 +181,7 @@ exports.updateOrderdetails = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating call details:", error);
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({status:"failed", message: "Server error", error: error.message });
   }
 });
 
@@ -194,7 +194,7 @@ exports.deleteOrderdetails = asyncHandler(async (req, res) => {
 
         // Check if IDs are provided and they are in an array
         if (!Array.isArray(ids) || ids.length === 0) {
-            return res.status(400).json({ message: 'Please provide an array of IDs' });
+            return res.status(400).json({status:"failed", message: 'Please provide an array of IDs' });
         }
 
         // Delete multiple documents by their IDs
@@ -204,7 +204,7 @@ exports.deleteOrderdetails = asyncHandler(async (req, res) => {
 
         // Check if any documents were deleted
         if (deletedCalls.deletedCount === 0) {
-            return res.status(404).json({ message: 'No order details found to delete' });
+            return res.status(404).json({status:"failed", message: 'No order details found to delete' });
         }
 
         // Return a success message
@@ -214,6 +214,6 @@ exports.deleteOrderdetails = asyncHandler(async (req, res) => {
         });
     } catch (error) {
         console.error('Error deleting call details:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({status:"failed", message: 'Server error', error: error.message });
     }
 });

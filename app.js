@@ -52,7 +52,7 @@ app.listen(port,()=>{
 })
 
 app.get('/test',(req,res)=>{
-    const msg = {'message' : 'Success'}
+    const msg = {'message' : 'success'}
     res.json(msg)
 })
 
