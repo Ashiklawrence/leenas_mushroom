@@ -45,31 +45,32 @@ exports.addSeeddetails = asyncHandler(async (req, res) => {
 
 // get seed details with pagination
 exports.getSeeddetails = asyncHandler(async (req, res) => {
-    try {
-        const { page = 1, limit = 10 } = req.query;
+  try {
+      const { page = 1, limit = 10 } = req.query;
+      const startIndex = (page - 1) * limit;
 
-        // Calculate the starting index of the documents to fetch
-        const startIndex = (page - 1) * limit;
+      const seed = await seeddb
+          .find()
+          .skip(startIndex)
+          .limit(Number(limit));
 
-        // Fetch the documents with pagination
-        const seed = await seeddb
-            .find()
-            .skip(startIndex)
-            .limit(Number(limit));
+      const total = await seeddb.countDocuments();
 
-        // Get the total count of documents
-        const total = await seeddb.countDocuments();
-
-        // Send the paginated data in the response
-        res.status(200).json({
-          status:"success",
-            total,
-            page: Number(page),
-            limit: Number(limit),
-            data:seed,
-        });
-    } catch (error) {
-        console.error("Error fetching seed details:", error);
-        res.status(500).json({status:"failed", message: "Server error", error: error.message });
-    }
+      res.status(200).json({
+          status: "success",
+          pagination: {
+              total,
+              page: Number(page),
+              limit: Number(limit)
+          },
+          data: seed
+      });
+  } catch (error) {
+      console.error("Error fetching seed details:", error);
+      res.status(500).json({
+          status: "failed", 
+          message: "Server error", 
+          error: error.message 
+      });
+  }
 });

@@ -63,9 +63,11 @@ exports.getBeddetails = asyncHandler(async (req, res) => {
         // Send the paginated data in the response
         res.status(200).json({
             status:"success",
-            total,
-            page: Number(page),
-            limit: Number(limit),
+            pagination: {
+              total,
+              page: Number(page),
+              limit: Number(limit)
+          },
             data: beddata,
         });
     } catch (error) {
