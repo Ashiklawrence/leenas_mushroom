@@ -19,7 +19,7 @@ const mushroomdbSchema = mongoose.Schema({
     },
     remarks : {
         type : String,
-        required : true,
+        default : '',
     }
 },{timestamps : true})
 

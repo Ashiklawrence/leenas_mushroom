@@ -29,7 +29,7 @@ exports.addSeeddetails = asyncHandler(async (req, res) => {
         harvest_time,
         quantity,
         no_of_packets,
-        remarks,
+        remarks ,
     });
 
     // Save the new document to the database
