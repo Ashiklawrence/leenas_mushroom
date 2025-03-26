@@ -17,8 +17,7 @@ exports.addBeddetails = asyncHandler(async (req, res) => {
       !date ||
       !harvest_time ||
       !quantity ||
-      !no_of_packets ||
-      !remarks
+      !no_of_packets 
     ) {
       return res.status(400).json({status:"failed", message: "All fields are required" });
     }
@@ -65,7 +64,7 @@ exports.getBeddetails = asyncHandler(async (req, res) => {
             status:"success",
             pagination: {
               total,
-              page: Number(page),
+              pages: Number(page),
               limit: Number(limit)
           },
             data: beddata,
