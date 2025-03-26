@@ -19,7 +19,7 @@ const beddbSchema = mongoose.Schema({
     },
     remarks : {
         type : String,
-        required : true,
+        default : "",
     }
 },{timestamps : true})
 
