@@ -1,62 +1,51 @@
-const mongoose = require('mongoose')
-// 
+const mongoose = require('mongoose');
+
 const orderdbSchema = mongoose.Schema({
-    date : {
-        type : Date,
-        required : true,
+    date: {
+        type: Date
     },
-    item :{
-        type : String,
+    item: {
+        type: String
     },
-    order_type :{
-        type : String,
-        required : true,
+    order_type: {
+        type: String
     },
-    name : {
-        type : String,
-        required : true,
+    name: {
+        type: String
     },
-    address : {
-        type : String,
-        required : true,
+    address: {
+        type: String
     },
-    pincode : {
-        type : String,
-        required : true,
+    pincode: {
+        type: String
     },
-    phone_number : {
-        type : String,
-        required : true
+    phone_number: {
+        type: String
     },
-    catalogue : {
-        type : String,
-        required : true
+    catalogue: {
+        type: String
     },
-    quantity : {
-        type : Number,
-        required : true
+    quantity: {
+        type: Number
     },
     courier_data: {
-        type : String,
+        type: String
     },
     courier_provider: {
-        type : String,
-        required : true
+        type: String
     },
-    courier_ref_no:{
-        type : String,
-        required : true
+    courier_ref_no: {
+        type: String
     },
-    tracking_id:{
-        type : String,
+    tracking_id: {
+        type: String
     },
-    tracking_status : {
-        type : String,
-        required : true
+    tracking_status: {
+        type: String
     },
-    payment_status:{
-        type : String,
+    payment_status: {
+        type: String
     }
-},{timestamps : true})
+}, { timestamps: true });
 
-module.exports = mongoose.model("orderdb",orderdbSchema)
+module.exports = mongoose.model("orderdb", orderdbSchema);
