@@ -1,14 +1,23 @@
 const incomedb = require("../models/incomedb");
 const asyncHandler = require("express-async-handler");
 
-
-// Add Income Details
 exports.addIncomedetails = asyncHandler(async (req, res) => {
     try {
-        const { date, user_details, source, income_type, amount, gst } = req.body;
+        const {
+            date,
+            user_details,
+            source,
+            income_type,
+            amount,
+            gst,
+            gst_number,
+            gst_percentage,
+            cgst,
+            sgst
+        } = req.body;
 
         if (!date || !income_type || !amount) {
-            return res.status(400).json({ status: 'failed', message: 'All required fields must be provided' });
+            return res.status(400).json({ status: 'failed', message: 'Date, income_type, and amount are required' });
         }
 
         const newIncome = new incomedb({
@@ -18,6 +27,10 @@ exports.addIncomedetails = asyncHandler(async (req, res) => {
             income_type,
             amount,
             gst,
+            gst_number,
+            gst_percentage,
+            cgst,
+            sgst
         });
 
         const savedData = await newIncome.save();
@@ -29,7 +42,7 @@ exports.addIncomedetails = asyncHandler(async (req, res) => {
     }
 });
 
-// Get Income Details with Pagination
+// `getiIncomedetails` and `deleteIncomedetails` remain unchanged as they fetch/delete all fields automatically
 exports.getiIncomedetails = asyncHandler(async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
@@ -59,7 +72,6 @@ exports.getiIncomedetails = asyncHandler(async (req, res) => {
     }
 });
 
-// Delete Income Details
 exports.deleteIncomedetails = asyncHandler(async (req, res) => {
     try {
         const { ids } = req.body;

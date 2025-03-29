@@ -20,8 +20,24 @@ const incomedbSchema = mongoose.Schema({
         required: true,
     },
     gst: {
-        type:String,
-        default: null,  // This makes the field nullable
+        type: String,
+        default: null,  // Existing nullable field
+    },
+    gst_number: {
+        type: String,
+        default: null,  // Nullable field
+    },
+    gst_percentage: {
+        type: String,
+        default: null,  // Nullable field
+    },
+    cgst: {
+        type: String,
+        default: null,  // Nullable field (Central GST)
+    },
+    sgst: {
+        type: String,
+        default: null,  // Nullable field (State GST)
     }
 }, { timestamps: true });
 
