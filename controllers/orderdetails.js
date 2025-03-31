@@ -213,6 +213,7 @@ exports.addOrderdetails = asyncHandler(async (req, res) => {
       date,
       order_type,
       item,
+      payment_details,
       name,
       address,
       pincode,
@@ -233,6 +234,7 @@ exports.addOrderdetails = asyncHandler(async (req, res) => {
     const newOrder = new orderdb({
       date,
       item,
+      payment_details,
       order_type,
       name,
       address,
@@ -317,6 +319,7 @@ exports.updateOrderdetails = asyncHandler(async (req, res) => {
       id,
       date,
       item,
+      payment_details,
       order_type,
       name,
       address,
@@ -344,6 +347,7 @@ exports.updateOrderdetails = asyncHandler(async (req, res) => {
     if (date !== undefined) updateData.date = date;
     if (item !== undefined) updateData.item = item;
     if (order_type !== undefined) updateData.order_type = order_type;
+    if(payment_details !== undefined) updateData.payment_details = payment_details;
     if (name !== undefined) updateData.name = name;
     if (address !== undefined) updateData.address = address;
     if (pincode !== undefined) updateData.pincode = pincode;
